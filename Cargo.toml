@@ -1,0 +1,32 @@
+[package]
+name = "stm32f103c8-tutorial"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+defmt = "0.3"
+defmt-rtt = "0.4"
+
+cortex-m-rt = "0.7"
+cortex-m = { version = "0.7", features = [
+  "inline-asm",
+  "critical-section-single-core",
+] }
+stm32f1xx-hal = { version = "0.10", features = ["stm32f103", "rt", "medium"] }
+
+panic-probe = { version = "0.3", features = ["print-defmt"] }
+
+[profile.dev]
+codegen-units = 1      # better optimizations
+debug = true
+opt-level = "s"
+overflow-checks = true
+lto = "fat"
+panic = 'unwind'
+
+[profile.release]
+codegen-units = 1       # better optimizations
+debug = true            # no overhead for bare-metal
+opt-level = "z"         # optimize for binary size
+overflow-checks = false
+lto = "fat"
