@@ -2,6 +2,13 @@
 
 some funny code with rust
 
+## Prerequisites
+
+- [probe.rs](https://probe.rs/)
+- [tools with great guy](https://www.youtube.com/watch?v=TOAynddiu5M)
+
+## How to run
+
 ```
 cargo run -r --bin echo
 
