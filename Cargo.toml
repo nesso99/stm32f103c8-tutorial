@@ -12,6 +12,8 @@ cortex-m = { version = "0.7", features = [
   "inline-asm",
   "critical-section-single-core",
 ] }
+
+rtic = { version = "2.1", features = ["thumbv7-backend"] }
 stm32f1xx-hal = { version = "0.10", features = ["stm32f103", "rt", "medium"] }
 
 panic-probe = { version = "0.3", features = ["print-defmt"] }
