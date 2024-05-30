@@ -13,8 +13,15 @@ cortex-m = { version = "0.7", features = [
   "critical-section-single-core",
 ] }
 
-rtic = { version = "2.1", features = ["thumbv7-backend"] }
+rtic = { git = "https://github.com/rtic-rs/rtic", features = [
+  "thumbv7-backend",
+] }
+rtic-monotonics = { git = "https://github.com/rtic-rs/rtic", features = [
+  "cortex-m-systick",
+  "stm32f103c8",
+] }
 stm32f1xx-hal = { version = "0.10", features = ["stm32f103", "rt", "medium"] }
+fugit = { version = "0.3", features = ["defmt"] }
 
 panic-probe = { version = "0.3", features = ["print-defmt"] }
 
