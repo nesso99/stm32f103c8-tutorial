@@ -6,7 +6,7 @@ use {defmt_rtt as _, panic_probe as _};
 use rtic_monotonics::systick::prelude::*;
 systick_monotonic!(Mono, 1000);
 
-#[rtic::app(device = stm32f1xx_hal::pac, peripherals = true)]
+#[rtic::app(device = stm32f1xx_hal::pac, dispatchers = [SPI1])]
 mod app {
     use crate::Mono;
     use defmt::{info, Format};
@@ -26,14 +26,6 @@ mod app {
         ReleasedSinglePending,
         PressedDoublePending,
     }
-
-    // #[derive(Debug, PartialEq)]
-    // enum PressState {
-    //     None,
-    //     Single,
-    //     Double,
-    //     Long,
-    // }
 
     pub struct ButtonHandler {
         pub state: ButtonState,
@@ -140,6 +132,7 @@ mod app {
                     button_handler.state = ButtonState::None;
                 } else if button_handler.state == ButtonState::Pressed {
                     button_handler.state = ButtonState::ReleasedSinglePending;
+                    clear::spawn().ok();
                 }
 
                 button_handler.last_release_at =
@@ -148,11 +141,28 @@ mod app {
         }
     }
 
+    #[task(priority=1, shared = [button_handler])]
+    async fn clear(cx: clear::Context) {
+        Mono::delay(250.millis()).await;
+        // info!("Clearing");
+
+        let clear::SharedResources {
+            mut button_handler, ..
+        } = cx.shared;
+
+        button_handler.lock(|button_handler| {
+            if button_handler.state == ButtonState::ReleasedSinglePending {
+                info!("Single press");
+                button_handler.state = ButtonState::None;
+            }
+        });
+    }
+
     impl Format for ButtonState {
         fn format(&self, f: defmt::Formatter<'_>) {
             match self {
                 ButtonState::Pressed => defmt::write!(f, "Pressed"),
-                _ => defmt::write!(f, "Released"),
+                _ => defmt::write!(f, "TODO"),
             }
         }
     }
