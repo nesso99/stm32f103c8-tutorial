@@ -9,7 +9,7 @@ systick_monotonic!(Mono, 1000);
 #[rtic::app(device = stm32f1xx_hal::pac, dispatchers = [SPI1])]
 mod app {
     use crate::Mono;
-    use defmt::{info, Format};
+    use defmt::info;
     use fugit::MillisDurationU32;
     use rtic_monotonics::Monotonic;
     use stm32f1xx_hal::{
@@ -104,7 +104,7 @@ mod app {
         } = cx.shared;
 
         // debounce
-        delay_handler.delay_ms(30_u16);
+        delay_handler.delay_ms(20_u16);
         button.clear_interrupt_pending_bit();
         NVIC::unpend(Interrupt::EXTI0);
 
@@ -156,14 +156,5 @@ mod app {
                 button_handler.state = ButtonState::None;
             }
         });
-    }
-
-    impl Format for ButtonState {
-        fn format(&self, f: defmt::Formatter<'_>) {
-            match self {
-                ButtonState::Pressed => defmt::write!(f, "Pressed"),
-                _ => defmt::write!(f, "TODO"),
-            }
-        }
     }
 }
