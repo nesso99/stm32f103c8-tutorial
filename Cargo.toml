@@ -12,6 +12,7 @@ cortex-m = { version = "0.7", features = [
   "inline-asm",
   "critical-section-single-core",
 ] }
+nb = "1.1"
 
 rtic = { git = "https://github.com/rtic-rs/rtic", features = [
   "thumbv7-backend",
@@ -20,7 +21,11 @@ rtic-monotonics = { git = "https://github.com/rtic-rs/rtic", features = [
   "cortex-m-systick",
   "stm32f103c8",
 ] }
-stm32f1xx-hal = { version = "0.10", features = ["stm32f103", "rt", "medium"] }
+stm32f1xx-hal = { git = "https://github.com/stm32-rs/stm32f1xx-hal", features = [
+  "stm32f103",
+  "rt",
+  "medium",
+] }
 fugit = { version = "0.3", features = ["defmt"] }
 
 panic-probe = { version = "0.3", features = ["print-defmt"] }

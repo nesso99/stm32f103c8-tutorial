@@ -467,6 +467,7 @@ dependencies = [
  "defmt",
  "defmt-rtt",
  "fugit",
+ "nb 1.1.0",
  "panic-probe",
  "rtic",
  "rtic-monotonics",
@@ -476,8 +477,7 @@ dependencies = [
 [[package]]
 name = "stm32f1xx-hal"
 version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "30845662b9ce46a2ec04da97666a2b32458bee5032bb0452d0caf1536a96a542"
+source = "git+https://github.com/stm32-rs/stm32f1xx-hal#86b1686551c15e0214013a30fdf4a021b474fcfd"
 dependencies = [
  "bitflags",
  "bxcan",
